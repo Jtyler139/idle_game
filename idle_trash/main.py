@@ -1,6 +1,7 @@
 import pygame # type: ignore
 from constants import *
 import sys
+from enemy import Enemy
 
 def main():
     pygame.init()
@@ -10,8 +11,10 @@ def main():
 
     clock = pygame.time.Clock()
 
-    updateable = pygame.sprite.Group()
-    drawable = pygame.sprite.Group()
+    new_enemy = Enemy(screen_width//2, screen_height//2)
+
+    #updateable = pygame.sprite.Group()
+    #drawable = pygame.sprite.Group()
 
     dt = 0
 
@@ -22,6 +25,11 @@ def main():
                 running = False
 
         screen.fill((0, 0, 255))
+
+        
+        new_enemy.draw(screen)
+
+        pygame.display.flip()
 
         pygame.display.update()
 
