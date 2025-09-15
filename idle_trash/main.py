@@ -2,11 +2,19 @@ import pygame # type: ignore
 from constants import *
 import sys
 from enemy import Enemy
+from title import *
 
 def main():
     pygame.init()
 
     screen = pygame.display.set_mode((screen_width, screen_height))
+    uielement = UIElement(
+        center_position=(screen_width//2, screen_height//4),
+        font_size=30,
+        bg_rgb=(106, 159, 181),
+        text_rgb=(255, 255, 255),
+        text='Start Game'
+    )
     pygame.display.set_caption("Idle Trash")
 
     clock = pygame.time.Clock()
@@ -24,7 +32,10 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-        screen.fill((0, 0, 255))
+        screen.fill((106, 159, 181))
+
+        uielement.update(pygame.mouse.get_pos())
+        uielement.draw(screen)
 
         
         new_enemy.draw(screen)
