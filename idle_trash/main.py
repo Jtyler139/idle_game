@@ -15,6 +15,15 @@ def main():
         text_rgb=(255, 255, 255),
         text='Start Game'
     )
+
+    quit_button = UIElement(
+        center_position=(screen_width//2, screen_height * 0.75),
+        font_size=20,
+        bg_rgb=(106, 159, 181),
+        text_rgb=(255,255,255),
+        text='Quit'
+    )
+
     pygame.display.set_caption("Idle Trash")
 
     clock = pygame.time.Clock()
@@ -36,6 +45,8 @@ def main():
 
         uielement.update(pygame.mouse.get_pos())
         uielement.draw(screen)
+        quit_button.update(pygame.mouse.get_pos())
+        quit_button.draw(screen)
 
         
         new_enemy.draw(screen)
