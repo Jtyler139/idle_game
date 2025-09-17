@@ -41,6 +41,10 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if quit_button.mouse_over:
+                    running = False
+
         screen.fill((106, 159, 181))
 
         uielement.update(pygame.mouse.get_pos())
