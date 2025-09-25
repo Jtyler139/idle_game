@@ -1,4 +1,4 @@
-import pygame
+import pygame # type: ignore
 from shape import Shape
 from constants import *
 

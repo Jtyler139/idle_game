@@ -1,6 +1,6 @@
-import pygame
-import pygame.freetype
-from pygame.sprite import Sprite
+import pygame # type: ignore
+import pygame.freetype # type: ignore
+from pygame.sprite import Sprite # type: ignore
 
 
 def create_surface(text, font_size, text_rgb, bg_rgb):
