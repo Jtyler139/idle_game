@@ -1,7 +1,7 @@
 import pygame # type: ignore
 from constants import *
-from game import Game
 from button import UIElement
+from enemy import Enemy
 
 class GameState:
     def __init__(self, game):
@@ -73,12 +73,17 @@ class MainMenuState(GameState):
 class GameplayState(GameState):
     def __init__(self, game):
         super().__init__(game)
+        self.new_enemy = Enemy(screen_width//2, screen_height//2)
 
-    def handle_events(self, game):
-        pass
+    def handle_events(self, events):
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if self.new_enemy.mouse_over:
+                    pass
 
     def update(self, dt):
         pass
 
     def render(self, screen):
-        screen.fill((255,255,255))
+        screen.fill(BLACK)
+        self.new_enemy.draw(screen)
