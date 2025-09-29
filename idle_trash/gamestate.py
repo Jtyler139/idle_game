@@ -2,6 +2,7 @@ import pygame # type: ignore
 from constants import *
 from button import UIElement
 from enemy import Enemy
+from health_bar import HealthBar
 
 class GameState:
     def __init__(self, game):
@@ -74,6 +75,7 @@ class GameplayState(GameState):
     def __init__(self, game):
         super().__init__(game)
         self.new_enemy = Enemy(screen_width//2, screen_height//2)
+        self.enemy_health = HealthBar(screen_width * .25, screen_height * .25, 10, 10, 640, 10)
 
     def handle_events(self, events):
         for event in events:
@@ -86,4 +88,5 @@ class GameplayState(GameState):
 
     def render(self, screen):
         screen.fill(BLACK)
+        self.enemy_health.draw(screen)
         self.new_enemy.draw(screen)
