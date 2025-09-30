@@ -21,8 +21,8 @@ class Game:
     def run(self):
         running = True
         while running:
-            dt = self.clock.tick(60) / 1000.0
-
+            dt = self.clock.tick(60)
+            
             events = pygame.event.get()
             for event in events:
                 if event.type == pygame.QUIT:
@@ -34,5 +34,7 @@ class Game:
                 self.current_state.render(self.screen)
             
             pygame.display.flip()
+
+            self.clock.tick(60)
         
         pygame.quit()

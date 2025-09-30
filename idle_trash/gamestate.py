@@ -76,15 +76,18 @@ class GameplayState(GameState):
         super().__init__(game)
         self.new_enemy = Enemy(screen_width//2, screen_height//2)
         self.enemy_health = HealthBar(screen_width * .25, screen_height * .25, 10, 10, 640, 10)
-
+        
     def handle_events(self, events):
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.new_enemy.mouse_over:
-                    pass
+                    self.enemy_health.take_damage(1)
+                    
+
 
     def update(self, dt):
-        pass
+        self.new_enemy.update(pygame.mouse.get_pos())
+        self.enemy_health.update(dt)
 
     def render(self, screen):
         screen.fill(BLACK)
