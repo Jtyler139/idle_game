@@ -11,6 +11,8 @@ class Game:
         self.screen = pygame.display.set_mode((screen_width, screen_height))
         self.clock = pygame.time.Clock()
         self.current_state = None
+        self.reset_timer_start = pygame.time.get_ticks()
+        self.reset_delay_ms = 5000
 
     def set_state(self, new_state):
         if self.current_state:
@@ -20,8 +22,10 @@ class Game:
 
     def run(self):
         running = True
+        
         while running:
             dt = self.clock.tick(60)
+            current_time = pygame.time.get_ticks()
             
             events = pygame.event.get()
             for event in events:
@@ -29,7 +33,7 @@ class Game:
                     running = False
 
             if self.current_state:
-                self.current_state.handle_events(events)
+                self.current_state.handle_events(events, current_time)
                 self.current_state.update(dt)
                 self.current_state.render(self.screen)
             

@@ -22,3 +22,7 @@ class HealthBar:
     def take_damage(self, amount):
         self.current_hp = max(0, self.current_hp - amount)
         self.health_ratio = self.current_hp / self.max_hp
+
+    def reset_enemy(self):
+        self.current_hp = self.max_hp
+        self.health_ratio = self.current_hp / self.max_hp

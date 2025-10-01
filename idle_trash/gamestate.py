@@ -8,7 +8,7 @@ class GameState:
     def __init__(self, game):
         self.game = game
 
-    def handle_events(self, events):
+    def handle_events(self, events, current_time):
         pass
     def update(self, dt):
         pass
@@ -17,6 +17,9 @@ class GameState:
     def enter(self):
         pass
     def exit(self):
+        pass
+
+    def reset_timer(self, reset_timer_start, reset_delay_ms, current_time):
         pass
 
 class MainMenuState(GameState):
@@ -53,7 +56,7 @@ class MainMenuState(GameState):
         import sys
         sys.exit()
 
-    def handle_events(self, events):
+    def handle_events(self, events, current_time):
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.start_button.mouse_over:
@@ -77,11 +80,23 @@ class GameplayState(GameState):
         self.new_enemy = Enemy(screen_width//2, screen_height//2)
         self.enemy_health = HealthBar(screen_width * .25, screen_height * .25, 10, 10, 640, 10)
         
-    def handle_events(self, events):
+    def handle_events(self, events, current_time):
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.new_enemy.mouse_over:
                     self.enemy_health.take_damage(1)
+            if self.enemy_health.current_hp > 0:
+                if current_time - self.game.reset_timer_start >= self.game.reset_delay_ms:
+                    self.reset_game()
+                    self.game.reset_timer_start = pygame.time.get_ticks()
+            if self.enemy_health.current_hp <= 0:
+                self.win_game()
+
+
+    def reset_game(self):
+        print("reset")
+        self.enemy_health.reset_enemy()
+
                     
 
 
@@ -93,3 +108,51 @@ class GameplayState(GameState):
         screen.fill(BLACK)
         self.enemy_health.draw(screen)
         self.new_enemy.draw(screen)
+
+    def win_game(self):
+        print("You Win!")
+        self.game.set_state(WinState(self.game))
+
+class WinState(GameState):
+    def __init__(self, game):
+        super().__init__(game)
+
+        self.quit_button = UIElement(
+        center_position=(screen_width//2, screen_height * 0.75),
+        font_size=20,
+        bg_rgb=(WHITE),
+        text_rgb=(BLACK),
+        text='Quit'
+        )
+
+        self.win_text = UIElement(
+        center_position=(screen_width//2, screen_height//2),
+        font_size=50,
+        bg_rgb=(WHITE),
+        text_rgb=(BLACK),
+        text="YOU WIN!!!"
+        )
+
+    def enter(self):
+        pass
+
+    def exit_game(self):
+        print("Exiting game...")
+        pygame.quit()
+        import sys
+        sys.exit()
+
+    def update(self, dt):
+        self.quit_button.update(pygame.mouse.get_pos())
+
+    def handle_events(self, events, current_time):
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if self.quit_button.mouse_over:
+                    self.exit_game()
+
+    def render(self, screen):
+        screen.fill(WHITE)
+        self.quit_button.draw(screen)
+        self.win_text.draw(screen)
+
